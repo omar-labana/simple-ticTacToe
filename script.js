@@ -17,7 +17,7 @@ const registerClick = (e) => {
   const id = getID_H(e);
   registerClickInGameState(id);
   removeLister(getElementFromID(id));
-  console.log(e, extractClickPosition(id), getElementFromID(id));
+  // console.log(e, extractClickPosition(id), getElementFromID(id));
 };
 //
 //
@@ -65,6 +65,7 @@ const checkWinner = (x, y, z) => x === y && y === z && z != "";
 const endGame = () => {
   removeListers();
   declareWinner();
+  // resetGameState(gameState.state);
   console.log("object");
 };
 const removeListers = () => {
@@ -77,11 +78,22 @@ const declareWinner = () => {
     "winner"
   )[0].innerHTML = `Player ${currentPlayer} won the Game`;
 };
-// tests
 const drawShap = (id) => {
-  let s = document.createElement("img");
-  s.setAttribute("src", `${currentPlayer.toLowerCase() + ".svg"}`);
-  document.getElementById(id).appendChild(s);
+  let symbol = document.createElement("img");
+  symbol.setAttribute("src", `${currentPlayer.toLowerCase() + ".svg"}`);
+  document.getElementById(id).appendChild(symbol);
+};
+// tests
+const resetGameState = () => {
+  gameState.state.forEach((arrayInState) => {
+    arrayInState[0] = "";
+    arrayInState[1] = "";
+    arrayInState[2] = "";
+  });
+  squareTargets.forEach((div) => (div.innerHTML = ""));
+  currentPlayer = "X";
+  document.getElementsByClassName("winner")[0].innerHTML = "";
+  addListeners(squareTargets);
 };
 //main
 const main = () => {
@@ -91,3 +103,4 @@ main();
 //playground it here
 // compare(x, y, z, currentPlayer);
 // return x === "X" ? (y === "X" ? (z === "X" ? true : false) : false) : false;
+document.getElementById("reset").addEventListener("click", resetGameState);
