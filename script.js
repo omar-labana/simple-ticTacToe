@@ -1,3 +1,4 @@
+//game state
 let gameState = {
   state: [
     ["", "", ""],
@@ -7,6 +8,8 @@ let gameState = {
 };
 let currentPlayer = "X"; //min
 const changePlayer = (currPlayer) => (currPlayer === "X" ? "O" : "X"); //min
+//@
+//GUI interactive
 const squareTargets = document.querySelectorAll(".square");
 const addListeners = (targets) =>
   targets.forEach((target) => registerListener(target));
@@ -19,11 +22,19 @@ const registerClick = (e) => {
   removeLister(getElementFromID(id));
   // console.log(e, extractClickPosition(id), getElementFromID(id));
 };
-//
-//
-//
-//
-//
+const resetGameState = () => {
+  gameState.state.forEach((arrayInState) => {
+    arrayInState[0] = "";
+    arrayInState[1] = "";
+    arrayInState[2] = "";
+  });
+  squareTargets.forEach((div) => (div.innerHTML = ""));
+  currentPlayer = "X";
+  document.getElementsByClassName("winner")[0].innerHTML = "";
+  addListeners(squareTargets);
+};
+document.getElementById("reset").addEventListener("click", resetGameState);
+
 const getElementFromID = (id) => document.getElementById(id);
 const removeLister = (elem) => elem.removeEventListener("click", registerClick);
 const getID_H = (event) => event.target.id;
@@ -42,6 +53,7 @@ const registerClickInGameState = (id) => {
   }
   currentPlayer = changePlayer(currentPlayer);
 };
+//@
 const checkGameState = function () {
   const game = [...gameState.state];
   for (let i = 0; i < game.length; i++) {
@@ -61,12 +73,10 @@ const checkGameState = function () {
   return false;
 };
 const checkWinner = (x, y, z) => x === y && y === z && z != "";
-//
+
 const endGame = () => {
   removeListers();
   declareWinner();
-  // resetGameState(gameState.state);
-  console.log("object");
 };
 const removeListers = () => {
   squareTargets.forEach((elem) => {
@@ -83,18 +93,7 @@ const drawShap = (id) => {
   symbol.setAttribute("src", `${currentPlayer.toLowerCase() + ".svg"}`);
   document.getElementById(id).appendChild(symbol);
 };
-// tests
-const resetGameState = () => {
-  gameState.state.forEach((arrayInState) => {
-    arrayInState[0] = "";
-    arrayInState[1] = "";
-    arrayInState[2] = "";
-  });
-  squareTargets.forEach((div) => (div.innerHTML = ""));
-  currentPlayer = "X";
-  document.getElementsByClassName("winner")[0].innerHTML = "";
-  addListeners(squareTargets);
-};
+
 //main
 const main = () => {
   addListeners(squareTargets);
@@ -103,4 +102,3 @@ main();
 //playground it here
 // compare(x, y, z, currentPlayer);
 // return x === "X" ? (y === "X" ? (z === "X" ? true : false) : false) : false;
-document.getElementById("reset").addEventListener("click", resetGameState);
