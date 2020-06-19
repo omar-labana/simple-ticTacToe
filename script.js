@@ -54,7 +54,7 @@ const registerClickInGameState = (id) => {
   currentPlayer = changePlayer(currentPlayer);
 };
 //@
-const checkGameState = function () {
+const checkGameState = () => {
   const game = [...gameState.state];
   for (let i = 0; i < game.length; i++) {
     if (
